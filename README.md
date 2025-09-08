@@ -32,6 +32,12 @@ output (884×777 pixels), so you can safely use `--recursive` across your entire
 library repeatedly without ending up with jewel cases inside jewel cases.
 You can override this behaviour by passing the `--force` parameter.
 
+Use `--quiet` to suppress "skipped" messages when using `--recursive`:
+
+```bash
+go run github.com/csmith/jewelcase/cmd/jewelcase@latest --recursive --quiet ./folder
+```
+
 ## Effects
 
 | Example                            | Description                                         |

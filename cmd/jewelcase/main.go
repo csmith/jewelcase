@@ -22,6 +22,7 @@ func main() {
 		inplace          = flag.Bool("inplace", false, "Modify file in-place")
 		recursive        = flag.Bool("recursive", false, "Process directory recursively")
 		force            = flag.Bool("force", false, "Process images even if they appear to be already processed")
+		quiet            = flag.Bool("quiet", false, "Suppress skipped messages in recursive mode")
 	)
 	flag.Parse()
 
@@ -41,7 +42,7 @@ func main() {
 		if len(args) != 1 {
 			printUsage()
 		}
-		processDirectory(args[0], opts)
+		processDirectory(args[0], opts, *quiet)
 	} else if *inplace {
 		if len(args) != 1 {
 			printUsage()
@@ -72,7 +73,7 @@ func printUsage() {
 	os.Exit(1)
 }
 
-func processDirectory(dir string, opts jewelcase.Options) {
+func processDirectory(dir string, opts jewelcase.Options, quiet bool) {
 	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -87,7 +88,9 @@ func processDirectory(dir string, opts jewelcase.Options) {
 			err := jewelcase.ProcessFile(path, path, opts)
 			if err != nil {
 				if errors.Is(err, jewelcase.ErrAlreadyProcessed) {
-					fmt.Printf("Skipped: %s (already processed)\n", path)
+					if !quiet {
+						fmt.Printf("Skipped: %s (already processed)\n", path)
+					}
 				} else {
 					fmt.Fprintf(os.Stderr, "Error processing %s: %v\n", path, err)
 				}
