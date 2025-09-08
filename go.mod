@@ -1,0 +1,5 @@
+module github.com/csmith/jewelcase
+
+go 1.25.1
+
+require golang.org/x/image v0.30.0
