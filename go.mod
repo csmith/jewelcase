@@ -2,4 +2,4 @@ module github.com/csmith/jewelcase
 
 go 1.25.1
 
-require golang.org/x/image v0.33.0
+require golang.org/x/image v0.34.0
